@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: eureka-server
+  logging:
+    level: INFO
+  output:
+    ansi:
+      enabled: ALWAYS
+
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+
