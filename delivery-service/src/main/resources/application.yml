@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: delivery-service
+  logging:
+    level: INFO
+  output:
+    ansi:
+      enabled: ALWAYS
+
+server:
+  port: 0
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+
