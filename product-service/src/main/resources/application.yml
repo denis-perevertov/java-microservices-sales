@@ -1,14 +1,29 @@
 spring:
   application:
     name: product-service
-  logging:
-    level: INFO
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/micro
+          jwk-set-key: http://localhost:8085/realms/micro/protocol/openid-connect/certs
+  datasource:
+    url: jdbc:mysql://localhost:3306/microservice_product
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    format-sql: true
   output:
     ansi:
       enabled: ALWAYS
 
 server:
-  port: 0
+  port: 8999
+  #port: 0
 
 eureka:
   client:
@@ -17,3 +32,7 @@ eureka:
   instance:
     hostname: localhost
     prefer-ip-address: true
+
+logging:
+  level:
+    root: DEBUG

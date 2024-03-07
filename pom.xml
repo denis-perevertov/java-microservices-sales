@@ -66,6 +66,8 @@
         <module>order-service</module>
         <module>delivery-service</module>
         <module>notification-service</module>
+        <module>project-utils</module>
+        <module>user-service</module>
     </modules>
 
 </project>

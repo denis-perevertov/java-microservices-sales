@@ -1,13 +1,16 @@
 spring:
   application:
     name: api-gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/micro
   cloud:
     gateway:
       discovery:
         locator:
           enabled: true
-  logging:
-    level: INFO
   output:
     ansi:
       enabled: ALWAYS
@@ -22,3 +25,7 @@ eureka:
   instance:
     hostname: localhost
     prefer-ip-address: true
+
+logging:
+  level:
+    root: DEBUG
