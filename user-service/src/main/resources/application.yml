@@ -1,0 +1,51 @@
+application:
+  config:
+    server: http://localhost:8888
+  keycloak:
+    server: http://localhost:8085
+    realm: master
+    clientId: auth
+    clientSecret: WV1Ekqdq4LWBnowzxDqCFyl7W8vHci66
+
+spring:
+  application:
+    name: user-service
+  profiles:
+    active: local
+  config:
+    import: optional:configserver:${application.config.server}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${application.keycloak.server}/realms/${application.keycloak.realm}
+          jwk-set-key: ${application.keycloak.server}/realms/${application.keycloak.realm}/protocol/openid-connect/certs
+  datasource:
+    url: jdbc:mysql://localhost:3306/microservice_user
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    format-sql: true
+  output:
+    ansi:
+      enabled: ALWAYS
+
+server:
+  port: 8401
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+
+logging:
+  level:
+    root: DEBUG
+
