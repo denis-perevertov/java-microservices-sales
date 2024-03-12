@@ -1,14 +1,13 @@
 spring:
   application:
     name: payment-service
+  config:
+    import: "configserver:http://localhost:8888"
   logging:
     level: INFO
   output:
     ansi:
       enabled: ALWAYS
-
-server:
-  port: 0
 
 eureka:
   client:

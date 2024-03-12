@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://js.braintreegateway.com/web/dropin/1.42.0/js/dropin.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <form id="payment-form" action="/api/payment/test-payment" method="post">
+        <!-- Putting the empty container you plan to pass to
+          'braintree.dropin.create' inside a form will make layout and flow
+          easier to manage -->
+        <div id="dropin-container"></div>
+        <input type="submit" />
+        <input type="hidden" id="nonce" name="payment_method_nonce" />
+    </form>
+
+    <script type="text/javascript">
+        const form = document.getElementById('payment-form');
+
+        fetch(`http://localhost:8081/api/payment/customer/client-token`)
+        .then(res => {
+            console.log(res);
+            return res.json();
+        })
+        .then(data => {
+            console.log(data);
+            token = data.token;
+
+            braintree.dropin.create({
+              authorization: token,
+              container: '#dropin-container'
+            }, (error, dropinInstance) => {
+              if (error) console.error(error);
+
+              form.addEventListener('submit', event => {
+                event.preventDefault();
+
+                dropinInstance.requestPaymentMethod((error, payload) => {
+                  if (error) console.error(error);
+
+                  document.getElementById('nonce').value = payload.nonce;
+                  console.log('payment nonce: ', payload.nonce);
+                  form.submit();
+                });
+              });
+            });
+        })
+        .catch(console.log);
+
+
+    </script>
+</body>
+</html>
