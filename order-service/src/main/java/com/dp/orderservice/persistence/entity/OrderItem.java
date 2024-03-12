@@ -15,9 +15,7 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Product product;
+    private Long productId;
 
     private int quantity;
 

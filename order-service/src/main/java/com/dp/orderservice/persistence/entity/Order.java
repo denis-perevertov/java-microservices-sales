@@ -21,6 +21,9 @@ public class Order {
     @Column(nullable = false)
     private String orderNumber;
 
+    @Column(nullable = false)
+    private Long userId;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
 
@@ -35,6 +38,10 @@ public class Order {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderType type;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
