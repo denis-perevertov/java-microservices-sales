@@ -1,3 +1,12 @@
+application:
+  config:
+    server: http://localhost:8888
+  keycloak:
+    server: http://localhost:8085
+    realm: master
+    clientId: auth
+    clientSecret: WV1Ekqdq4LWBnowzxDqCFyl7W8vHci66
+
 spring:
   application:
     name: api-gateway
@@ -5,7 +14,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8085/realms/micro
+          issuer-uri: ${application.keycloak.server}/realms/${application.keycloak.realm}
   cloud:
     gateway:
       discovery:
