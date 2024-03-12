@@ -12,4 +12,8 @@ public interface ValidationUtils {
         bindingResult.getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
         return errors;
     }
+
+    static boolean fieldIsNotEmpty(String string) {
+        return string != null && !string.isEmpty();
+    }
 }

@@ -10,6 +10,8 @@ import com.dp.utils.ValidationUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +23,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +34,7 @@ public class ProductController {
     private final ProductMapper mapper;
     private final ProductValidator validator;
 
+
     @GetMapping("/test")
     public Object test() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -37,7 +42,7 @@ public class ProductController {
         log.info("user: {}", user.toString());
         log.info(user.getClaimAsMap("realm_access").toString());
         log.info(user.getClaimAsMap("realm_access").get("roles").toString());
-        return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return "test";
     }
 
     @GetMapping
