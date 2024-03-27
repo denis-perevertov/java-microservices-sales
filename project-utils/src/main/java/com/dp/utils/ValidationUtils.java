@@ -16,4 +16,7 @@ public interface ValidationUtils {
     static boolean fieldIsNotEmpty(String string) {
         return string != null && !string.isEmpty();
     }
+    static boolean fieldIsNotEmpty(Object object) { return object != null; }
+
+    static boolean doubleValueNonNegative(Double d) { return fieldIsNotEmpty(d) && d >= 0; }
 }

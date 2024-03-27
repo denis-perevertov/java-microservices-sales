@@ -1,6 +1,6 @@
 package com.dp.orderservice.model;
 
-import com.dp.deliveryservice.persistence.DeliveryType;
+import com.dp.deliveryservice.persistence.DeliveryMethod;
 import com.dp.utils.Country;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -11,7 +11,7 @@ import java.util.List;
 public record CalculateCostRequest(
         Country countryCode,
         @NotNull
-        DeliveryType deliveryType,
+        DeliveryMethod deliveryMethod,
         @NotEmpty
         List<Item> items
 ) {

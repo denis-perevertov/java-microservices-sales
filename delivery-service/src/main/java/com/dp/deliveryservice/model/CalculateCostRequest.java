@@ -1,10 +1,10 @@
 package com.dp.deliveryservice.model;
 
-import com.dp.deliveryservice.persistence.DeliveryType;
+import com.dp.deliveryservice.persistence.DeliveryMethod;
 
 public record CalculateCostRequest(
         String countryCode,  // ????
-        DeliveryType deliveryType,
+        DeliveryMethod deliveryMethod,
         int weight,
         int price
 ) {

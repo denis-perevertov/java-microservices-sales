@@ -1,5 +1,6 @@
 package com.dp.productservice.service.product;
 
+import com.dp.productservice.mapper.ProductMapper;
 import com.dp.productservice.model.ProductSaveRequest;
 import com.dp.productservice.persistence.entity.Product;
 import com.dp.productservice.persistence.repository.CategoryRepository;
@@ -18,14 +19,21 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
-    private final CategoryRepository categoryRepository;
 
+    private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
     @Override
     public List<Product> getAllProducts() {
         log.info("getting all products");
         return productRepository.findAll();
+    }
+
+    @Override
+    public List<Product> getProductsByIds(List<Long> ids) {
+        log.info("getting products from supplied id list");
+        return productRepository.findByIdIn(ids);
     }
 
     @Override
@@ -49,19 +57,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product saveProduct(ProductSaveRequest request) {
-        Product product = request.id() != null
-                ? getProduct(request.id())
-                : new Product();
-        product.setName(request.name());
-        product.setPriceUKR(request.priceUKR());
-        product.setPriceUSA(request.priceUSA());
-        product.setLink(request.link());
-        product.setImg(request.img());
-        if(request.categoryId() != null) {
-            categoryRepository.findById(request.categoryId()).ifPresent(product::setCategory);
-            log.info("set category");
-        }
-        product = productRepository.save(product);
+        Product product = productRepository.save(productMapper.saveRequestToProduct(request));
         log.info("product saved (ID: {})", product.getId());
         return product;
     }

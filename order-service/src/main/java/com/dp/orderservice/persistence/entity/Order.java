@@ -2,6 +2,7 @@ package com.dp.orderservice.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "orders")
+@Accessors(chain = true)
 public class Order {
 
     @Id

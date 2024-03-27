@@ -1,7 +1,7 @@
 package com.dp.productservice.mapper;
 
-import com.dp.productservice.model.CategorySaveRequest;
 import com.dp.productservice.model.CategoryDTO;
+import com.dp.productservice.model.CategorySaveRequest;
 import com.dp.productservice.persistence.entity.Category;
 import com.dp.productservice.persistence.repository.CategoryRepository;
 import com.dp.productservice.persistence.repository.ProductRepository;

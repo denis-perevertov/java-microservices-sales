@@ -1,8 +1,8 @@
 package com.dp.productservice.controller;
 
 import com.dp.productservice.mapper.CategoryMapper;
-import com.dp.productservice.model.CategorySaveRequest;
 import com.dp.productservice.model.CategoryListRequest;
+import com.dp.productservice.model.CategorySaveRequest;
 import com.dp.productservice.persistence.entity.Category;
 import com.dp.productservice.service.category.CategoryService;
 import com.dp.productservice.validator.CategoryValidator;

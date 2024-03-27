@@ -2,10 +2,12 @@ package com.dp.productservice.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
 @Entity
 @Table(name = "products")
+@Accessors(chain = true)
 public class Product {
 
     @Id
@@ -15,8 +17,10 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    private double priceUSA;
-    private double priceUKR;
+    @Column(nullable = false)
+    private Double priceUSA;
+    @Column(nullable = false)
+    private Double priceUKR;
 
     @Column(nullable = false)
     private String link;

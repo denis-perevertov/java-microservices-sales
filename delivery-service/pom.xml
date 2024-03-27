@@ -39,5 +39,10 @@
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>com.dp</groupId>
+            <artifactId>project-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

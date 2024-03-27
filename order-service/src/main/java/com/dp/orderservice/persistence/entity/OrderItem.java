@@ -3,12 +3,14 @@ package com.dp.orderservice.persistence.entity;
 import com.dp.productservice.persistence.entity.Product;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "order_items")
+@Accessors(chain = true)
 public class OrderItem {
 
     @Id

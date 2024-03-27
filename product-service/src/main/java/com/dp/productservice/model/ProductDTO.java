@@ -5,6 +5,7 @@ public record ProductDTO (
         double priceUSA,
         double priceUKR,
         String link,
-        String img
+        String img,
+        CategoryDTO category
 ) {
 }

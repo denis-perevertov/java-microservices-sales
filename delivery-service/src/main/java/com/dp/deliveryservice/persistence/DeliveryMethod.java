@@ -1,6 +1,6 @@
 package com.dp.deliveryservice.persistence;
 
-public enum DeliveryType {
+public enum DeliveryMethod {
     AIR,
     SEA
 }
