@@ -1,8 +1,10 @@
 package com.dp.paymentservice.model.transaction;
 
+import java.math.BigDecimal;
+
 public record TransactionAddRequest(
         String userId,
-        double amount,
+        BigDecimal amount,
         boolean useDefaultMethod,
         String paymentMethodNonce
 ) {

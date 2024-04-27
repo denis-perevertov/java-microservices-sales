@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 public class TransactionServiceImpl implements TransactionService {
 
     private final BraintreeGateway gateway;
-
     private final CustomerService customerService;
 
     @Override
@@ -30,7 +29,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Transaction completeAddTransaction(TransactionAddRequest transactionRequest) {
         TransactionRequest request = new TransactionRequest()
-                .amount(BigDecimal.valueOf(transactionRequest.amount()));
+                .amount(transactionRequest.amount());
         if(transactionRequest.useDefaultMethod()) {
             String customerId = customerService.getCustomerFromUserId(transactionRequest.userId()).getId();
             request.customerId(customerId);
