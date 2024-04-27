@@ -30,17 +30,6 @@ public class ProductController {
     private final ProductMapper mapper;
     private final ProductValidator validator;
 
-
-    @GetMapping("/test")
-    public Object test() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Jwt user = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        log.info("user: {}", user.toString());
-        log.info(user.getClaimAsMap("realm_access").toString());
-        log.info(user.getClaimAsMap("realm_access").get("roles").toString());
-        return "test";
-    }
-
     @GetMapping
     public ResponseEntity<?> getProducts(ProductPageRequest request) {
 

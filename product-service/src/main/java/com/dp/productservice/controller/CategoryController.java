@@ -32,6 +32,9 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCategory(@PathVariable Long id) {
+        if(!validator.categoryExists(id)) {
+            return ResponseEntity.badRequest().build();
+        }
         Category category = categoryService.getCategory(id);
         return ResponseEntity.ok(mapper.toDTO(category));
     }

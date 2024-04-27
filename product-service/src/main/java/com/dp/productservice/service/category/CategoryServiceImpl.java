@@ -33,7 +33,6 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public Page<Category> getCategoriesPage(Pageable pageable, String query) {
         log.info("getting all categories by search query: {}", query);
-//        return categoryRepository.findByNameLikeIgnoreCase(query, pageable);
         return (query == null || query.isEmpty())
                 ? categoryRepository.findAll(pageable)
                 : categoryRepository.findByNameContainingIgnoreCase(query, pageable);

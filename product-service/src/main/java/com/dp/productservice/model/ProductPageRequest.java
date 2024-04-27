@@ -1,6 +1,10 @@
 package com.dp.productservice.model;
 
 public record ProductPageRequest(
+        String name,
+        Double priceFrom,
+        Double priceTo,
+        Long categoryId,
         Integer page,
         Integer size
 ) {

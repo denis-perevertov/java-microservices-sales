@@ -3,9 +3,11 @@ package com.dp.productservice.mapper;
 import com.dp.productservice.model.ProductDTO;
 import com.dp.productservice.model.ProductSaveRequest;
 import com.dp.productservice.persistence.entity.Product;
+import com.dp.productservice.persistence.repository.CategoryRepository;
 import com.dp.productservice.persistence.repository.ProductRepository;
 import com.dp.productservice.service.category.CategoryService;
 import com.dp.productservice.service.product.ProductService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +16,8 @@ import org.springframework.stereotype.Component;
 public class ProductMapper {
 
     private final ProductRepository productRepository;
-    private final CategoryService categoryService;
-    private final ProductService productService;
+    private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
     public ProductDTO toDTO(Product product) {
         return new ProductDTO(
@@ -23,7 +25,8 @@ public class ProductMapper {
                 product.getPriceUSA(),
                 product.getPriceUKR(),
                 product.getLink(),
-                product.getImg()
+                product.getImg(),
+                categoryMapper.toDTO(product.getCategory())
         );
     }
 
@@ -53,7 +56,7 @@ public class ProductMapper {
     }
 
     public Product saveRequestToProduct(ProductSaveRequest request, Long originalProductId) {
-        Product product = productService.getProduct(originalProductId);
+        Product product = productRepository.findById(originalProductId).orElseThrow(() -> new EntityNotFoundException("Product not found!"));
         return mapProduct(product, request);
     }
 
@@ -65,7 +68,7 @@ public class ProductMapper {
                 .setPriceUKR(request.priceUKR())
                 .setPriceUSA(request.priceUSA());
         if(request.categoryId() != null && request.categoryId() >= 0) {
-            product.setCategory(categoryService.getCategory(request.categoryId()));
+            product.setCategory(categoryRepository.findById(request.categoryId()).orElseThrow(() -> new EntityNotFoundException("Category not found!")));
         }
         return product;
     }
