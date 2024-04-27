@@ -1,0 +1,11 @@
+services:
+  eureka:
+    container_name: eureka_server
+    build: ./eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - micro
+
+networks:
+  micro:

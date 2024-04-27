@@ -26,6 +26,7 @@
         <lombok.version>1.18.30</lombok.version>
         <micrometer-tracking.version>1.12.3</micrometer-tracking.version>
         <kafka.version>3.1.2</kafka.version>
+        <testcontainers.version>1.19.7</testcontainers.version>
     </properties>
 
     <dependencyManagement>
