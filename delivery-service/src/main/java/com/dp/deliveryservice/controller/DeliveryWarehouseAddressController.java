@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClient;
 
 @Slf4j
 @RestController
@@ -24,6 +25,7 @@ public class DeliveryWarehouseAddressController {
 
     private final DeliveryAddressService addressService;
     private final DeliveryAddressMapper deliveryAddressMapper;
+    private final RestClient restClient;
 
     @GetMapping({"", "/"})
     public ResponseEntity<?> getWarehouseAddressesPage(WarehouseAddressPageRequest request) {
@@ -33,11 +35,10 @@ public class DeliveryWarehouseAddressController {
         ));
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserWarehouseAddresses(@PathVariable Long userId) {
-        // connect to user service ?
-        return ResponseEntity.ok(addressService.getUserWarehouseAddresses(userId));
-    }
+//    @GetMapping("/{userId}")
+//    public ResponseEntity<?> getUserWarehouseAddresses(@PathVariable Long userId) {
+//        return ResponseEntity.ok(addressService.getUserWarehouseAddresses(userId));
+//    }
 
     @PostMapping({"", "/"})
     public ResponseEntity<?> createWarehouseAddress(@RequestBody @Valid WarehouseAddressCreateRequest request,

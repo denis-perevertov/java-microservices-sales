@@ -1,11 +1,17 @@
 package com.dp.deliveryservice.model;
 
 import com.dp.deliveryservice.persistence.DeliveryMethod;
+import com.dp.utils.Country;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 public record CalculateCostRequest(
-        String countryCode,  // ????
+        Country countryCode,
+        @NotNull
         DeliveryMethod deliveryMethod,
+        @Min(0)
         int weight,
-        int price
+        @Min(0)
+        double price
 ) {
 }

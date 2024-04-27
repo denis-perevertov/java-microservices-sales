@@ -16,9 +16,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriBuilder;
 
 @Slf4j
 @RestController
@@ -28,6 +32,7 @@ public class DeliveryReceiverAddressController {
 
     private final DeliveryAddressService addressService;
     private final DeliveryAddressMapper deliveryAddressMapper;
+    private final RestClient restClient;
 
     @GetMapping({"", "/"})
     public ResponseEntity<?> getReceiverAddressesPage(ReceiverAddressPageRequest request) {
@@ -35,6 +40,11 @@ public class DeliveryReceiverAddressController {
                 new ReceiverAddressListSpecification(request),
                 PageRequest.of(request.page(), request.size())
         ));
+    }
+
+    @GetMapping("/{receiverId}")
+    public ResponseEntity<?> getSingleReceiverAddresses(@PathVariable Long receiverId) {
+        return ResponseEntity.ok(addressService.getUserReceiverAddresses(receiverId));
     }
 
     @PostMapping({"", "/"})
@@ -62,12 +72,6 @@ public class DeliveryReceiverAddressController {
     public ResponseEntity<?> deleteReceiverAddress(@RequestParam Long id) {
         addressService.deleteReceiverAddress(id);
         return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/{receiverId}")
-    public ResponseEntity<?> getSingleReceiverAddresses(@PathVariable Long receiverId) {
-        // connect to user service ?
-        return ResponseEntity.ok(addressService.getUserReceiverAddresses(receiverId));
     }
 
 

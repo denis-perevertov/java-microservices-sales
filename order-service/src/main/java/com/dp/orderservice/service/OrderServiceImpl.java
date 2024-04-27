@@ -5,6 +5,8 @@ import com.dp.orderservice.model.*;
 import com.dp.orderservice.persistence.entity.*;
 import com.dp.orderservice.persistence.repository.OrderItemRepository;
 import com.dp.orderservice.persistence.repository.OrderRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +15,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static com.dp.utils.EnumUtils.getEnum;
@@ -30,6 +31,8 @@ public class OrderServiceImpl implements OrderService{
 
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final RestClient restClient;
+    private final ObjectMapper objectMapper;
 
     @Override
     public List<Order> getAllOrders() {
@@ -119,6 +122,26 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public CalculateCostResponse calculateOrderCost(CalculateCostRequest request) {
-        return null;
+        Map<String, Object> req = new HashMap<>();
+        req.put("countryCode", request.countryCode().name());
+        req.put("deliveryMethod", request.deliveryMethod().name());
+        req.put("weight", request.items().stream().map(CalculateCostRequest.Item::weight).reduce(Integer::sum));
+        req.put("price", request.items().stream().map(CalculateCostRequest.Item::price).reduce(Double::sum));
+
+        CalculateCostResponse res = restClient.post()
+                .uri(builder -> builder
+                        .pathSegment(
+                                "/api/delivery",
+                                "/calculate-cost"
+                        )
+                        .build())
+                .body(req)
+                .retrieve()
+                .toEntity(CalculateCostResponse.class)
+                .getBody();
+
+        log.info("received response");
+
+        return res;
     }
 }
