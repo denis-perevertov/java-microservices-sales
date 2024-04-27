@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
@@ -19,7 +20,7 @@ public class UserTransaction {
     @Column(nullable = false)
     ZonedDateTime datetime;
     @Column(nullable = false)
-    Double sum;
+    BigDecimal sum;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     UserTransaction.Type type;

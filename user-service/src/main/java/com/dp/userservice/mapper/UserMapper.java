@@ -135,4 +135,26 @@ public class UserMapper {
     public List<UserTransactionDTO> transactionListToDTO(List<UserTransaction> list) {
         return list.stream().map(this::transactionToDTO).toList();
     }
+
+    public UserCustomerCreateRequest userToCustomerCreateRequest(User user) {
+        return new UserCustomerCreateRequest(
+                String.valueOf(user.getId()),
+                user.getProfileDetails().getFirstName(),
+                user.getProfileDetails().getLastName(),
+                user.getEmail(),
+                user.getProfileDetails().getPhone()
+        );
+    }
+
+    public UserRegisterRequest userToRegisterRequest(User user) {
+        return new UserRegisterRequest(
+                user.getEmail(),
+                user.getProfileDetails().getFirstName(),
+                user.getProfileDetails().getLastName(),
+                true,
+                user.getEmail(),
+                true,
+                List.of(new UserRegisterRequest.RegisterCredentials("password", true, user.getEmail()))
+        );
+    }
 }

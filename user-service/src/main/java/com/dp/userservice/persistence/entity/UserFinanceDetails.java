@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class UserFinanceDetails {
     Long id;
 
     @Column(nullable = false)
-    Double balance;
+    BigDecimal balance = BigDecimal.ZERO;
     @Column(nullable = false, columnDefinition = "boolean default false")
     Boolean automaticDebtDeduction;
 

@@ -1,5 +1,6 @@
 package com.dp.userservice.service;
 
+import com.dp.userservice.model.user.UserBalanceUpdateRequest;
 import com.dp.userservice.persistence.entity.User;
 import com.dp.userservice.persistence.entity.UserTransaction;
 import com.dp.userservice.persistence.repository.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Slf4j
@@ -58,5 +60,18 @@ public class UserServiceImpl implements UserService {
     public List<UserTransaction> getUserTransactions(Long id) {
         log.info("getting user transactions (user ID:{})", id);
         return getUser(id).getFinanceDetails().getTransactions();
+    }
+
+    @Override
+    public void updateUserBalance(UserBalanceUpdateRequest request) {
+        User user = getUser(request.userId());
+        BigDecimal userBalance = user.getFinanceDetails().getBalance();
+        user.getFinanceDetails().setBalance(
+                request.type().equals(UserBalanceUpdateRequest.UpdateType.ADD)
+                        ? userBalance.add(request.amount())
+                        : userBalance.subtract(request.amount())
+        );
+        user = saveUser(user);
+        log.info("updated user balance (ID:{})", user);
     }
 }

@@ -37,6 +37,7 @@ public class UserController {
     private final UserValidator userValidator;
     private final KeycloakProperties keycloakProperties;
     private final Keycloak keycloak;
+    private final RestClient restClient;
 
     // *****  LOGIN  *****
 
@@ -103,6 +104,14 @@ public class UserController {
             }
             user = userMapper.registerRequestToUser(request).setAuthId(authId);
             userService.saveUser(user);
+
+            // create payment customer from user data
+            restClient.post()
+                    .uri(builder -> builder.path("/api/user").build())
+                    .body(userMapper.userToCustomerCreateRequest(user))
+                    .retrieve()
+                    .toBodilessEntity();
+
             return ResponseEntity
                     .status(response.getStatus())
                     .body(Map.of(
@@ -137,6 +146,17 @@ public class UserController {
         }
         User user = userMapper.fromSaveRequestToUser(request);
         user = userService.saveUser(user);
+
+        // attempt to register user in keycloak
+        registerUser(userMapper.userToRegisterRequest(user));
+
+        // create payment customer from user data
+        restClient.post()
+                .uri(builder -> builder.path("/api/user").build())
+                .body(userMapper.userToCustomerCreateRequest(user))
+                .retrieve()
+                .toBodilessEntity();
+
         return ResponseEntity.ok(userMapper.userToDTO(user));
     }
 
@@ -161,6 +181,20 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
         userService.deleteUser(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/balance")
+    public ResponseEntity<?> changeUserBalance(@PathVariable Long id,
+                                               @RequestBody UserBalanceUpdateRequest request,
+                                               BindingResult bindingResult) {
+        if(!userValidator.userExists(id)) {
+            return ResponseEntity.badRequest().build();
+        }
+        if(bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(ValidationUtils.getErrorMessages(bindingResult));
+        }
+        userService.updateUserBalance(request);
         return ResponseEntity.ok().build();
     }
 
